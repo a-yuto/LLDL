@@ -82,6 +82,18 @@ impl AcFn {
         let out = x.clone();
         out
     }
+
+    pub fn SoftMax(x:&Vec<f64>) -> Vec<f64> {
+        let mut out: Vec<f64> = Vec::new();
+        let mut LnSum = 0.0;
+        for i in x {
+          LnSum += i.exp();
+        }
+        for i in x {
+            out.push( i.exp() / LnSum );
+        }
+        out
+    }
 }
 
 
@@ -143,6 +155,10 @@ pub fn AcFn_works() {
 
     let _e = vec![ 0.0, 1.0, 2.0];
     assert_eq!(_e,AcFn::ReLU(&_a));
+
+    let _f = vec![ 0.01821127, 0.24519181, 0.73659691];
+    let _g = vec![ 0.3,2.9,4.0];
+    assert_nearly_eq!(_f,AcFn::SoftMax(&_g),1e-6);
 }
 
 #[test]
