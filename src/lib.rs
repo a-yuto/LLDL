@@ -77,17 +77,29 @@ impl AcFn {
         }
         out
     }
+
+    pub fn identity(x:&Vec<f64>) -> Vec<f64> {
+        let out = x.clone();
+        out
+    }
 }
 
 
-struct TheeLayerNn;
-impl TheeLayerNn {
-    pub fn NnCal(x: &Vec<Vec<f64>>,w: &Vec<Vec<f64>>,b: &Vec<Vec<f64>>,h: fn(&Vec<f64>) -> Vec<f64> ) -> Vec<Vec<f64>>{
-        let z = MatOpp::mul(&x,&w);
-        let a: Vec<Vec<f64>> = MatOpp::add(&z,&b).unwrap();
-        vec![h(&a[0])]
+struct ThreeLayerNn;
+impl ThreeLayerNn {
+    pub fn NnCal(input: &Vec<Vec<f64>>,w: &Vec<Vec<f64>>,b: &Vec<Vec<f64>>,h: fn(&Vec<f64>) -> Vec<f64> ) -> Vec<Vec<f64>>{
+        let a = MatOpp::mul(&input,&w);
+        let out: Vec<Vec<f64>> = MatOpp::add(&a,&b).unwrap();
+        vec![h(&out[0])]
+    }
+    
+    pub fn L1FromInput(input: &Vec<Vec<f64>>,w: &Vec<Vec<f64>>,b: &Vec<Vec<f64>>,h: fn(&Vec<f64>) -> Vec<f64> ) -> Vec<Vec<f64>>{
+        ThreeLayerNn::NnCal(input,w,b,h)
     }
 
+    pub fn L2FromL1(input: &Vec<Vec<f64>>,w: &Vec<Vec<f64>>,b: &Vec<Vec<f64>>,h: fn(&Vec<f64>) -> Vec<f64> ) -> Vec<Vec<f64>>{
+        ThreeLayerNn::NnCal(input,w,b,h)
+    }
 }
 //-------------ここからテストです------------------
 #[test]
@@ -127,9 +139,7 @@ pub fn AcFn_works() {
     
     let _c = vec![0.2689414213699951, 0.7310585786300049, 0.8807970779778823];
     let _d = AcFn::sigmoid(&_a);
-    for i in 0.._c.len() {
-        assert_nearly_eq!(_c[i],_d[i]);
-    }
+    assert_nearly_eq!(_c,_d);
 
     let _e = vec![ 0.0, 1.0, 2.0];
     assert_eq!(_e,AcFn::ReLU(&_a));
@@ -137,11 +147,28 @@ pub fn AcFn_works() {
 
 #[test]
 pub fn NN_works() {
-    let _x = vec![vec![1.0,0.5]];
+    let x1 = vec![vec![1.0,0.5]];
     let w1 = vec![vec![0.1,0.3,0.5],
                   vec![0.2,0.4,0.6]
     ];
     let b1 = vec![vec![0.1,0.2,0.3]];
-    let a1 = vec![vec![0.574442516811659, 0.6681877721681662, 0.7502601055951177]];
-    assert_nearly_eq!(a1,TheeLayerNn::NnCal(&_x,&w1,&b1,AcFn::sigmoid));
+    let z1 = vec![vec![0.574442516811659, 0.6681877721681662, 0.7502601055951177]];
+    assert_nearly_eq!(z1,ThreeLayerNn::NnCal(&x1,&w1,&b1,AcFn::sigmoid));
+    
+    let x2 = ThreeLayerNn::L1FromInput(&x1,&w1,&b1,AcFn::sigmoid);
+    assert_nearly_eq!(z1,x2);
+    let w2 = vec![vec![ 0.2, 0.4],
+                  vec![ 0.2, 0.5],
+                  vec![ 0.3, 0.6]
+    ];
+    let b2 = vec![vec![ 0.1, 0.2]];
+    let x3 = ThreeLayerNn::L1FromInput(&x2,&w2,&b2,AcFn::sigmoid);
+
+    let w3 = vec![vec![ 0.1, 0.3],
+                  vec![ 0.2, 0.4]
+    ];
+    let b3 = vec![vec![ 0.1, 0.2]];
+    let y  = ThreeLayerNn::L1FromInput(&x3,&w3,&b3,AcFn::identity); 
+    let z3 = vec![vec![0.3181615777097998, 0.7002825937582768]];
+    assert_nearly_eq!(z3,y);
 }
