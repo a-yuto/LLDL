@@ -1,0 +1,11 @@
+[package]
+name = "LLDL"
+version = "0.1.0"
+authors = ["a-yuto"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+vec = {git = "https://github.com/a-yuto/vec.git"}
+nearly_eq = "0.2.4"
