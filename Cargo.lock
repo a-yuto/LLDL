@@ -16,7 +16,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "vec"
 version = "0.1.0"
-source = "git+https://github.com/a-yuto/vec.git#86f4a182e5c9a89560b1b530e8161679f55db827"
+source = "git+https://github.com/a-yuto/vec.git#6a11fa5ff4b78ee81635425fff0d1e678cff68d0"
 dependencies = [
  "nearly_eq 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
 ]

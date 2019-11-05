@@ -1,7 +1,8 @@
 extern crate vec;
-use vec::VecOpp; 
+use vec::VecOpp;
+use vec::MatOpp;
 use nearly_eq::*;
-
+use std::cmp;
 
 struct Percept;
 impl Percept{
@@ -68,6 +69,25 @@ impl AcFn {
         }
         out
     }
+
+    pub fn ReLU(x:&Vec<f64>) -> Vec<f64> {
+        let mut out: Vec<f64> = Vec::new();
+        for i in x {
+            out.push(i.max(0.0));
+        }
+        out
+    }
+}
+
+
+struct TheeLayerNn;
+impl TheeLayerNn {
+    pub fn NnCal(x: &Vec<Vec<f64>>,w: &Vec<Vec<f64>>,b: &Vec<Vec<f64>>,h: fn(&Vec<f64>) -> Vec<f64> ) -> Vec<Vec<f64>>{
+        let z = MatOpp::mul(&x,&w);
+        let a: Vec<Vec<f64>> = MatOpp::add(&z,&b).unwrap();
+        vec![h(&a[0])]
+    }
+
 }
 //-------------ここからテストです------------------
 #[test]
@@ -98,6 +118,7 @@ pub fn perceptron_works(){
     assert_eq!(Percept::xor(&x3),1.0);
     assert_eq!(Percept::xor(&x4),0.0);
 }
+
 #[test]
 pub fn AcFn_works() {
     let _a = vec![ -1.0, 1.0, 2.0];
@@ -109,4 +130,18 @@ pub fn AcFn_works() {
     for i in 0.._c.len() {
         assert_nearly_eq!(_c[i],_d[i]);
     }
+
+    let _e = vec![ 0.0, 1.0, 2.0];
+    assert_eq!(_e,AcFn::ReLU(&_a));
+}
+
+#[test]
+pub fn NN_works() {
+    let _x = vec![vec![1.0,0.5]];
+    let w1 = vec![vec![0.1,0.3,0.5],
+                  vec![0.2,0.4,0.6]
+    ];
+    let b1 = vec![vec![0.1,0.2,0.3]];
+    let a1 = vec![vec![0.574442516811659, 0.6681877721681662, 0.7502601055951177]];
+    assert_nearly_eq!(a1,TheeLayerNn::NnCal(&_x,&w1,&b1,AcFn::sigmoid));
 }
