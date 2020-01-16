@@ -69,49 +69,5 @@ mod perceptoron_test {
         assert_eq!(xor(1.0,1.0), 0.0);
     }
 
-}
-/*
- * activity function
- */
-pub fn sigmoid(x: f64) -> f64 {
-    1.0 / (1.0 + (-x).exp())
-}
-pub fn step(x: f64) -> f64 {
-    match x > 0.0 {
-        true  => 1.0,
-        false => 0.0
-    }
-}
-fn max(x: f64,y: f64) -> f64 {
-    match x > y {
-        true  => x,
-        false => y
-    }
-}
-pub fn ReLU(x: f64) -> f64 {
-    max(0.0,x)    
-}
-#[cfg(test)]
-mod activity_function_tests {
-    use super::*;
-    
-    #[test]
-    fn sigmoid_work(){
-        println!("f-1 = {}",sigmoid(-1.0));
-        println!("f1  = {}",sigmoid(1.0));
-        println!("f2  = {}",sigmoid(2.0));
-        assert_nearly_eq!(sigmoid(-1.0),0.26894142137);
-    }
-    #[test]
-    fn step_works(){
-         assert_eq!(step(0.0),0.0);
-         assert_eq!(step(5.0),1.0);
-         assert_eq!(step(-100.0),0.0);
-    }
-    #[test]
-    fn ReLU_work(){
-         assert_eq!(ReLU(10.0),10.0);
-         assert_eq!(ReLU(0.0),0.0);
-         assert_eq!(ReLU(-100.0),0.0);
-    }
+
 }
