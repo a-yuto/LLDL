@@ -9,18 +9,54 @@ dependencies = [
 ]
 
 [[package]]
+name = "autocfg"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "matrix"
+version = "0.22.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "num-complex 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "num-traits 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "nearly_eq"
 version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "num-complex"
+version = "0.2.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "autocfg 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "num-traits 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "num-traits"
+version = "0.2.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "autocfg 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "vec"
 version = "0.1.0"
-source = "git+https://github.com/a-yuto/vec.git#6a11fa5ff4b78ee81635425fff0d1e678cff68d0"
+source = "git+https://github.com/a-yuto/vec.git#2f8621dc49d92f84a8bf79be734428c695add9fd"
 dependencies = [
+ "matrix 0.22.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "nearly_eq 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [metadata]
+"checksum autocfg 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "f8aac770f1885fd7e387acedd76065302551364496e46b3dd00860b2f8359b9d"
+"checksum matrix 0.22.0 (registry+https://github.com/rust-lang/crates.io-index)" = "8b47e18b8a0ba6c9f2059ed8516261d169d462a07fafa8ec220ef6ac89c0efbc"
 "checksum nearly_eq 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)" = "a629868a433328c35d654e1e1fb4648a68a042e3c71de4e507a9bcf4602c5635"
+"checksum num-complex 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)" = "b6b19411a9719e753aff12e5187b74d60d3dc449ec3f4dc21e3989c3f554bc95"
+"checksum num-traits 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)" = "c62be47e61d1842b9170f0fdeec8eba98e60e90e5446449a0545e5152acd7096"
 "checksum vec 0.1.0 (git+https://github.com/a-yuto/vec.git)" = "<none>"
